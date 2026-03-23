@@ -1,0 +1,159 @@
+/* --- Solid Dark Professional Container --- */
+.form-container {
+    max-width: 650px;
+    margin: 40px auto;
+    padding: 35px;
+    background: #1e293b; /* Solid Dark Slate */
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid #334155; /* Sharp Dark Border */
+    font-family: 'Inter', sans-serif;
+}
+
+h2 { 
+    color: #f8fafc; 
+    text-align: center; 
+    margin-bottom: 30px; 
+    font-size: 26px;
+    font-weight: 700;
+    border-bottom: 2px solid #3b82f6; /* Bottom accent line */
+    padding-bottom: 10px;
+    display: inline-block;
+    width: 100%;
+}
+
+.doctor-form { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 20px; 
+}
+
+.form-group { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 8px; 
+}
+
+.form-row { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 20px; 
+}
+
+label { 
+    font-weight: 600; 
+    color: #94a3b8; 
+    font-size: 13px;
+    text-transform: uppercase; /* Professional Look */
+    letter-spacing: 0.5px;
+}
+
+/* --- Solid Input & Select Styling --- */
+input, .select-dropdown {
+    padding: 12px 15px;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    font-size: 15px;
+    color: #f1f5f9;
+    background-color: #0f172a; /* Deep Black/Blue */
+    transition: border-color 0.2s;
+}
+
+input:focus, .select-dropdown:focus { 
+    border-color: #3b82f6; 
+    outline: none;
+    background-color: #0f172a;
+}
+
+/* --- Slots Section --- */
+.slots-section {
+    background: #0f172a;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #334155;
+}
+
+.slots-section h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #e2e8f0;
+    margin-bottom: 15px;
+}
+
+.slot-row { 
+    display: flex; 
+    gap: 10px; 
+    margin-bottom: 10px; 
+    align-items: center;
+}
+
+.remove-slot {
+    background: #7f1d1d; /* Deep Red */
+    color: #fca5a5;
+    border: 1px solid #991b1b;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.remove-slot:hover {
+    background: #ef4444;
+    color: white;
+}
+
+.add-slot-btn {
+    background: transparent;
+    color: #60a5fa;
+    border: 1px dashed #3b82f6;
+    padding: 10px;
+    width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.add-slot-btn:hover {
+    background: rgba(59, 130, 246, 0.1);
+}
+
+/* --- Submit Button --- */
+.submit-btn {
+    margin-top: 10px;
+    background: #3b82f6;
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background: #2563eb;
+}
+
+.submit-btn:disabled { 
+    background: #475569; 
+    color: #94a3b8;
+    cursor: not-allowed; 
+}
+
+/* --- Time/Date Picker Icon Fix --- */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.8); /* Slightly dim white icon */
+    cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+    .form-row { grid-template-columns: 1fr; }
+    .form-container { margin: 15px; padding: 20px; }
+}
