@@ -40,22 +40,21 @@ export default function SignIn() {
       const user = resData.data || resData.user;
 
       if (token) {
-        // 1. Cookie set karein (Taki Axios Interceptor token bhej sake)
-        setCookie("token", token, { path: "/", maxAge: 86400 });
+    setCookie("token", token, { path: "/", maxAge: 86400 });
+    dispatch(setLogin({ user, token }));
 
-        // 2. Redux State update karein
-        dispatch(setLogin({ user, token }));
+    // User details ko localStorage ya sessionStorage mein save karein backup ke liye
+    const fullName = user.name || user.first_name || "Admin";
+    const email = user.email || ""; // Email ko save karein
+    sessionStorage.setItem("userName", fullName);
+    sessionStorage.setItem("userEmail", email); // 👈 New line
+    sessionStorage.setItem("token", token);
 
-        // 3. Header ke liye name aur token backup session mein save karein
-        const fullName = user.name || user.first_name || "Admin";
-        sessionStorage.setItem("userName", fullName);
-        sessionStorage.setItem("token", token);
+    alert("Login successful");
 
-        alert("Login successful");
-
-        // 4. Redirect - window.location use karne se Header fresh data utha lega
-        window.location.href = "/admin/doctor";
-      } else {
+    // Redirect to Dashboard
+    window.location.href = "/dashboard"; // 👈 Update path
+} else {
         alert("Token not found in response");
       }
     } catch (error: any) {

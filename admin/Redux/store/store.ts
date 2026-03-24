@@ -5,7 +5,8 @@ import doctorReducer from "../slice/doctorSlice"; // Doctor slice ko import kare
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    doctor: doctorReducer,// Yahan doctor reducer ko register karein
+    doctor: doctorReducer,
+    // Yahan doctor reducer ko register karein
   },
 });
 

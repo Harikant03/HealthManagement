@@ -37,8 +37,6 @@ export default function RootLayout({
         suppressHydrationWarning={true} // YAHAN ADD KAREIN
       >
         <ReduxProvider>
-          {/* <Header />
-          <Sidebar/> */}
           <main className="flex-1 container mx-auto p-6">
             {children}
           </main>
