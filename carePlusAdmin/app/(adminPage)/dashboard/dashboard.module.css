@@ -1,0 +1,319 @@
+/* Container and Section Styling */
+.doctorSection {
+  margin-top: 40px;
+  padding: 10px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.sectionTitle {
+  font-size: 20px;
+  color: #f8fafc; /* White/Light color for dark theme */
+  font-weight: 700;
+}
+
+.viewAllBtn {
+  font-size: 14px;
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: rgba(59, 130, 246, 0.1);
+  transition: 0.3s ease;
+}
+
+.viewAllBtn:hover {
+  background: rgba(59, 130, 246, 0.2);
+}
+
+/* Grid Layout */
+.doctorGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+/* Card Styling */
+.docCard {
+  background: #1e293b; /* Dark slate for dark theme */
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid #334155;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+.docCard:hover {
+  transform: translateY(-5px);
+  border-color: #475569;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* Top Section (Avatar & Badge) */
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.docAvatar {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px; /* Adjusted for 2 letters like 'RR' */
+  font-weight: 700;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.badgeGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.availabilityBadge {
+  font-size: 10px;
+  background: rgba(34, 197, 94, 0.1);
+  color: #4ade80;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Doctor Info */
+.docInfo {
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.docName {
+  font-size: 18px;
+  color: #f1f5f9;
+  margin: 0;
+  font-weight: 600;
+}
+
+.docDept {
+  font-size: 13px;
+  color: #94a3b8;
+  margin: 4px 0 12px 0;
+}
+
+/* Slot Time Section */
+.slotTimeContainer {
+  margin-top: auto;
+  text-align: left;
+}
+
+.slotTitle {
+  font-size: 11px;
+  color: #64748b;
+  margin-bottom: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.slotTimeList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.timeBadge {
+  background: rgba(59, 130, 246, 0.1);
+  color: #60a5fa;
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  font-weight: 600;
+}
+
+.moreSlots {
+  font-size: 11px;
+  color: #64748b;
+  align-self: center;
+}
+
+.noSlot {
+  font-size: 11px;
+  color: #f87171;
+  font-style: italic;
+}
+
+/* Footer Section */
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 18px;
+  border-top: 1px solid #334155;
+  margin-top: 10px;
+}
+
+.feeLabel {
+  display: block;
+  font-size: 10px;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.feeAmount {
+  font-size: 18px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.profileBtn {
+  font-size: 13px;
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.profileBtn:hover {
+  background: rgba(59, 130, 246, 0.1);
+  text-decoration: underline;
+}
+
+/* Utils */
+.loader, .noData {
+  text-align: center;
+  grid-column: 1 / -1;
+  padding: 60px;
+  color: #94a3b8;
+  background: rgba(30, 41, 59, 0.5);
+  border-radius: 16px;
+  border: 1px dashed #334155;
+}
+.profileAvatarCircle, .headerAvatar {
+  border-radius: 50%; /* Circular border */
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); /* Indigo to Purple Gradient */
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+.diagnosticSection {
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.diagnosticGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.diagCard {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  transition: 0.3s;
+}
+
+.diagCard:hover {
+  border-color: #3b82f6;
+  transform: scale(1.02);
+  background: #1e2945;
+}
+
+.diagIcon {
+  width: 50px;
+  height: 50px;
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.diagInfo {
+  flex-grow: 1;
+}
+
+.diagHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.diagHeader h4 {
+  font-size: 16px;
+  color: #f1f5f9;
+  margin: 0;
+}
+
+.distBadge {
+  font-size: 11px;
+  background: #0f172a;
+  color: #22c55e;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+.diagAddress {
+  font-size: 13px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 5px 0 10px 0;
+}
+
+.diagFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.diagPhone {
+  font-size: 12px;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.trackBtn {
+  font-size: 12px;
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 600;
+}
