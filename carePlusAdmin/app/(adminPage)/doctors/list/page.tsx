@@ -6,6 +6,7 @@ import { AxiosInstance } from "@/api/axios/axios";
 import Link from "next/link";
 import SweetAlert from "@/components/sweetalerts/page";
 import "./DoctorList.css";
+import { X, User, DollarSign, Calendar, Clock, Briefcase } from "lucide-react"; // Icons for card
 
 const DoctorList = () => {
   const dispatch = useAppDispatch();
@@ -31,12 +32,9 @@ const DoctorList = () => {
     dispatch(fetchDoctors({ page, limit, search }));
   }, [dispatch, page, limit, search]);
 
-  // Filter Logic for Name and Department
   const filteredDoctors = doctors.filter((doc: any) => {
     const searchTerm = search.toLowerCase();
-    const nameMatch = doc.name?.toLowerCase().includes(searchTerm);
-    const deptMatch = doc.department?.name?.toLowerCase().includes(searchTerm);
-    return nameMatch || deptMatch;
+    return doc.name?.toLowerCase().includes(searchTerm) || doc.department?.name?.toLowerCase().includes(searchTerm);
   });
 
   const handleDelete = (id: string) => {
@@ -49,22 +47,10 @@ const DoctorList = () => {
         dispatch(deleteDoctor(id))
           .unwrap()
           .then(() => {
-            setAlertConfig({
-              isOpen: true,
-              type: 'success',
-              title: 'Deleted!',
-              message: 'Doctor record removed successfully.',
-              confirmAction: null
-            });
+            setAlertConfig({ isOpen: true, type: 'success', title: 'Deleted!', message: 'Doctor record removed successfully.', confirmAction: null });
           })
           .catch(() => {
-            setAlertConfig({
-              isOpen: true,
-              type: 'error',
-              title: 'Error!',
-              message: 'Failed to delete the doctor.',
-              confirmAction: null
-            });
+            setAlertConfig({ isOpen: true, type: 'error', title: 'Error!', message: 'Failed to delete the doctor.', confirmAction: null });
           });
       }
     });
@@ -78,13 +64,7 @@ const DoctorList = () => {
         name: selectedDoc.name,
         fees: selectedDoc.fees,
       });
-      setAlertConfig({
-        isOpen: true,
-        type: 'success',
-        title: 'Updated!',
-        message: 'Doctor details have been saved.',
-        confirmAction: null
-      });
+      setAlertConfig({ isOpen: true, type: 'success', title: 'Updated!', message: 'Doctor details have been saved.', confirmAction: null });
       setEditModal(false);
       dispatch(fetchDoctors({ page, limit, search }));
     } catch (err) {
@@ -167,8 +147,50 @@ const DoctorList = () => {
         </tbody>
       </table>
 
-      {/* View & Edit Modals  */}
-      {/* ... */}
+      {/* ✅ 1. View Doctor Card Modal */}
+      {viewModal && selectedDoc && (
+        <div className="modal-overlay" onClick={() => setViewModal(false)}>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-card-header">
+              <h3>Doctor Details</h3>
+              <button className="close-icon" onClick={() => setViewModal(false)}><X size={20}/></button>
+            </div>
+            <div className="modal-card-body">
+              <div className="detail-item"><User size={18}/> <strong>Name:</strong> <span>{selectedDoc.name}</span></div>
+              <div className="detail-item"><DollarSign size={18}/> <strong>Fees:</strong> <span>₹{selectedDoc.fees}</span></div>
+              <div className="detail-item"><Briefcase size={18}/> <strong>Department:</strong> <span>{selectedDoc.department?.name || "N/A"}</span></div>
+              <div className="detail-item"><Calendar size={18}/> <strong>Date:</strong> <span>{selectedDoc.date}</span></div>
+              <div className="detail-item"><Clock size={18}/> <strong>Duty Time:</strong> <span>{selectedDoc.schedule?.startTime} - {selectedDoc.schedule?.endTime}</span></div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ✅ 2. Edit Doctor Card Modal */}
+      {editModal && selectedDoc && (
+        <div className="modal-overlay" onClick={() => setEditModal(false)}>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-card-header">
+              <h3>Edit Profile</h3>
+              <button className="close-icon" onClick={() => setEditModal(false)}><X size={20}/></button>
+            </div>
+            <form onSubmit={handleUpdateSubmit} className="modal-card-form">
+              <div className="input-field">
+                <label>Full Name</label>
+                <input type="text" value={selectedDoc.name} onChange={(e) => setSelectedDoc({...selectedDoc, name: e.target.value})} />
+              </div>
+              <div className="input-field">
+                <label>Consultation Fees (₹)</label>
+                <input type="text" value={selectedDoc.fees} onChange={(e) => setSelectedDoc({...selectedDoc, fees: e.target.value})} />
+              </div>
+              <div className="modal-card-footer">
+                <button type="button" className="cancel-btn-alt" onClick={() => setEditModal(false)}>Cancel</button>
+                <button type="submit" className="save-btn-alt">Update Now</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       <div className="pagination">
         <button disabled={page === 1} onClick={() => setPage(page - 1)}>Prev</button>

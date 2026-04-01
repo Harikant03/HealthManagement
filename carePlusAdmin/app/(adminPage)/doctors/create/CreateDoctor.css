@@ -6,7 +6,7 @@
     background: #1e293b; /* Solid Dark Slate */
     border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    border: 1px solid #334155; /* Sharp Dark Border */
+    border: 1px solid #334155; 
     font-family: 'Inter', sans-serif;
 }
 
@@ -16,7 +16,7 @@ h2 {
     margin-bottom: 30px; 
     font-size: 26px;
     font-weight: 700;
-    border-bottom: 2px solid #3b82f6; /* Bottom accent line */
+    border-bottom: 2px solid #3b82f6; 
     padding-bottom: 10px;
     display: inline-block;
     width: 100%;
@@ -44,28 +44,36 @@ label {
     font-weight: 600; 
     color: #94a3b8; 
     font-size: 13px;
-    text-transform: uppercase; /* Professional Look */
+    text-transform: uppercase; 
     letter-spacing: 0.5px;
 }
 
-/* --- Solid Input & Select Styling --- */
-input, .select-dropdown {
+/* --- Input & Select Styling (Fixed for Visibility) --- */
+input, select, .select-dropdown {
     padding: 12px 15px;
     border: 1px solid #334155;
     border-radius: 8px;
     font-size: 15px;
-    color: #f1f5f9;
-    background-color: #0f172a; /* Deep Black/Blue */
-    transition: border-color 0.2s;
+    color: #f1f5f9 !important; 
+    background-color: #0f172a !important; 
+    transition: all 0.2s ease;
+    width: 100%;
 }
 
-input:focus, .select-dropdown:focus { 
+/* ❗ Dropdown Options Fix: Isse department list dikhne lagegi */
+select option {
+    background-color: #1e293b; /* Dark background for dropdown list */
+    color: #f1f5f9; /* White text for list items */
+    padding: 10px;
+}
+
+input:focus, select:focus { 
     border-color: #3b82f6; 
     outline: none;
-    background-color: #0f172a;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
 }
 
-/* --- Slots Section --- */
+/* --- Schedule/Slots Section --- */
 .slots-section {
     background: #0f172a;
     padding: 20px;
@@ -74,55 +82,16 @@ input:focus, .select-dropdown:focus {
 }
 
 .slots-section h3 {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
-    color: #e2e8f0;
+    color: #3b82f6; /* Blue accent for section title */
     margin-bottom: 15px;
-}
-
-.slot-row { 
-    display: flex; 
-    gap: 10px; 
-    margin-bottom: 10px; 
-    align-items: center;
-}
-
-.remove-slot {
-    background: #7f1d1d; /* Deep Red */
-    color: #fca5a5;
-    border: 1px solid #991b1b;
-    width: 32px;
-    height: 32px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 18px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 8px;
 }
 
-.remove-slot:hover {
-    background: #ef4444;
-    color: white;
-}
-
-.add-slot-btn {
-    background: transparent;
-    color: #60a5fa;
-    border: 1px dashed #3b82f6;
-    padding: 10px;
-    width: 100%;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    margin-top: 10px;
-}
-
-.add-slot-btn:hover {
-    background: rgba(59, 130, 246, 0.1);
-}
-
-/* --- Submit Button --- */
+/* Submit Button */
 .submit-btn {
     margin-top: 10px;
     background: #3b82f6;
@@ -133,9 +102,10 @@ input:focus, .select-dropdown:focus {
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
+    transition: background 0.3s;
 }
 
-.submit-btn:hover {
+.submit-btn:hover:not(:disabled) {
     background: #2563eb;
 }
 
@@ -145,15 +115,14 @@ input:focus, .select-dropdown:focus {
     cursor: not-allowed; 
 }
 
-/* --- Time/Date Picker Icon Fix --- */
-input[type="date"]::-webkit-calendar-picker-indicator,
-input[type="time"]::-webkit-calendar-picker-indicator {
-    filter: invert(0.8); /* Slightly dim white icon */
+/* Icon visibility for dark mode pickers */
+input[type="time"]::-webkit-calendar-picker-indicator,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1); /* Makes the clock/calendar icon white */
     cursor: pointer;
 }
 
 /* Responsive */
 @media (max-width: 500px) {
     .form-row { grid-template-columns: 1fr; }
-    .form-container { margin: 15px; padding: 20px; }
 }

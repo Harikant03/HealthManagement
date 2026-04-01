@@ -3,14 +3,13 @@ import React, { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from "../../../../Redux/provider/provider";
 import { createDoctor } from "../../../../Redux/slice/doctorSlice";
 import { AxiosInstance } from "@/api/axios/axios"; 
-import SweetAlert from "@/components/sweetalerts/page"; // 
+import SweetAlert from "@/components/sweetalerts/page"; 
 import './CreateDoctor.css';
 
 const CreateDoctor = () => {
   const dispatch = useAppDispatch();
-  const { loading, error } = useAppSelector((state) => state.doctor);
+  const { loading } = useAppSelector((state) => state.doctor);
 
-  //  SweetAlert State
   const [alertConfig, setAlertConfig] = useState({
     isOpen: false,
     type: 'success' as 'success' | 'error',
@@ -19,11 +18,18 @@ const CreateDoctor = () => {
   });
 
   const [departments, setDepartments] = useState<any[]>([]);
+  
+  // ✅ Added 'date' in state
   const [formData, setFormData] = useState({
     name: '',
     fees: '', 
     departmentId: '', 
-    availableSlots: [{ date: '', time: '' }]
+    date: '', // 👈 New field added
+    schedule: {
+      startTime: '',
+      endTime: '',
+      slotDuration: 30 
+    }
   });
 
   useEffect(() => {
@@ -43,64 +49,55 @@ const CreateDoctor = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const formatTimeToAMPM = (time24: string) => {
-    if (!time24) return "";
-    let [hours, minutes] = time24.split(':');
-    let h = parseInt(hours);
-    const ampm = h >= 12 ? 'PM' : 'AM';
-    h = h % 12 || 12;
-    const formattedHours = h < 10 ? `0${h}` : h;
-    return `${formattedHours}:${minutes} ${ampm}`;
-  };
-
-  const handleSlotChange = (index: number, field: string, value: string) => {
-    const newSlots = [...formData.availableSlots];
-    newSlots[index] = { 
-        ...newSlots[index], 
-        [field]: field === 'time' ? formatTimeToAMPM(value) : value 
-    };
-    setFormData({ ...formData, availableSlots: newSlots });
-  };
-
-  const addSlot = () => {
+  const handleScheduleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      availableSlots: [...formData.availableSlots, { date: '', time: '' }]
+      schedule: {
+        ...formData.schedule,
+        [name]: name === 'slotDuration' ? Number(value) : value 
+      }
     });
-  };
-
-  const removeSlot = (index: number) => {
-    const newSlots = formData.availableSlots.filter((_, i) => i !== index);
-    setFormData({ ...formData, availableSlots: newSlots });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(createDoctor(formData as any))
+
+    // ✅ Payload exactly as backend expects
+    const payload = {
+      ...formData,
+      fees: formData.fees.toString(),
+      date: formData.date, // 👈 Passing date
+      schedule: {
+        ...formData.schedule,
+        slotDuration: Number(formData.schedule.slotDuration)
+      }
+    };
+
+    dispatch(createDoctor(payload as any))
       .unwrap()
       .then(() => {
-        // Success SweetAlert
         setAlertConfig({
           isOpen: true,
           type: 'success',
           title: 'Success!',
-          message: 'Doctor has been created successfully.'
+          message: 'Doctor created successfully.'
         });
         
         setFormData({ 
           name: '', 
           fees: '', 
           departmentId: '', 
-          availableSlots: [{ date: '', time: '' }] 
+          date: '', 
+          schedule: { startTime: '', endTime: '', slotDuration: 30 } 
         });
       })
       .catch((err) => {
-        //  Error SweetAlert
         setAlertConfig({
           isOpen: true,
           type: 'error',
           title: 'Oops!',
-          message: err || 'Something went wrong while saving.'
+          message: err || 'Something went wrong.'
         });
       });
   };
@@ -109,7 +106,6 @@ const CreateDoctor = () => {
     <div className="form-container">
       <h2>Add New Doctor</h2>
       
-      {/* SweetAlert Component */}
       <SweetAlert 
         isOpen={alertConfig.isOpen}
         type={alertConfig.type}
@@ -125,7 +121,7 @@ const CreateDoctor = () => {
             name="name" 
             value={formData.name} 
             onChange={handleChange} 
-            placeholder="e.g. Dr. Nill Datta"
+            placeholder="e.g. Dr. Hari Yadav"
             required 
           />
         </div>
@@ -149,7 +145,6 @@ const CreateDoctor = () => {
               name="departmentId" 
               value={formData.departmentId} 
               onChange={handleChange} 
-              className="select-dropdown"
               required
             >
               <option value="">Select Department</option>
@@ -162,32 +157,52 @@ const CreateDoctor = () => {
           </div>
         </div>
 
+        {/* ✅ Specific Date for Slots */}
+        <div className="form-group">
+          <label>📅 Available Date (For Slots Generation)</label>
+          <input 
+            type="date" 
+            name="date"
+            value={formData.date}
+            onChange={handleChange}
+            required 
+          />
+        </div>
+
         <div className="slots-section">
-          <h3>📅 Available Slots</h3>
-          {formData.availableSlots.map((slot, index) => (
-            <div key={index} className="slot-row">
-              <input 
-                type="date" 
-                value={slot.date}
-                onChange={(e) => handleSlotChange(index, 'date', e.target.value)} 
+          <h3>🕒 Duty Schedule Time</h3>
+          <div className="form-row">
+             <div className="form-group">
+                <label>Start Time</label>
+                <input 
+                  type="time" 
+                  name="startTime"
+                  value={formData.schedule.startTime}
+                  onChange={handleScheduleChange}
+                  required 
+                />
+             </div>
+             <div className="form-group">
+                <label>End Time</label>
+                <input 
+                  type="time" 
+                  name="endTime"
+                  value={formData.schedule.endTime}
+                  onChange={handleScheduleChange}
+                  required 
+                />
+             </div>
+          </div>
+          <div className="form-group">
+             <label>Slot Duration (Minutes)</label>
+             <input 
+                type="number" 
+                name="slotDuration"
+                value={formData.schedule.slotDuration}
+                onChange={handleScheduleChange}
                 required 
-              />
-              <input 
-                type="time" 
-                onChange={(e) => handleSlotChange(index, 'time', e.target.value)} 
-                required 
-                className="time-picker-input"
-              />
-              {index > 0 && (
-                <button type="button" className="remove-slot" onClick={() => removeSlot(index)}>
-                  &times;
-                </button>
-              )}
-            </div>
-          ))}
-          <button type="button" className="add-slot-btn" onClick={addSlot}>
-            + Add Another Slot
-          </button> 
+             />
+          </div>
         </div>
 
         <button type="submit" className="submit-btn" disabled={loading}>
